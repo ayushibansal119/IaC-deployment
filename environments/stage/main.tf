@@ -12,13 +12,13 @@ provider "azurerm" {
 }
 
 module "rg" {
-    source = "./modules/rg"
+    source = "../../modules/rg"
     rg_name = var.rg_name
     location = var.location
 }
 
 module "vnet" {
-  source = "./modules/network"
+  source = "../../modules/network"
   vnet_name = var.vnet_name
   rg_name = module.rg.rg_name
   location = module.rg.location
