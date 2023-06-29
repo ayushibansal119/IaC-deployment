@@ -22,4 +22,7 @@ module "vnet" {
   vnet_name = var.vnet_name
   rg_name = module.rg.rg_name
   location = module.rg.location
+  vnet_add_space = var.vnet_add_space
+  subnet_name = var.subnet_name
+  subnet_add_prefix = var.subnet_add_prefix
 }
