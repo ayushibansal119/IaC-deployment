@@ -11,13 +11,21 @@ output "location" {
 }
 
 output "vnet_name" {
-  value = module.vnet.vnet_name
+  value = module.network.vnet_name
 }
 
 output "vnet_add_space" {
-  value = module.vnet.vnet_add_space
+  value = module.network.vnet_add_space
 }
 
 output "subnet_name" {
-  value = module.vnet.subnet_name
+  value = module.network.subnet_name
 }
+
+output "cluster_name" {
+  value = module.aks.cluster_name
+}
+
+# output "cluster_id" {
+#   value = module.aks.cluster_id
+# }
