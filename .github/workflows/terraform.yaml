@@ -59,6 +59,13 @@ jobs:
            export TF_VAR_tenant_id = ${{ secrets.TENANT_ID }}
            export TF_VAR_subscription_id = ${{ secrets.SUBS_ID }}
            
+    - name: Group of log lines
+      run: |
+           export TF_VAR_client_id = ${{ secrets.SP_ID }}
+           export TF_VAR_client_secret = ${{ secrets.SP_PASSWORD }}
+           export TF_VAR_tenant_id = ${{ secrets.TENANT_ID }}
+           export TF_VAR_subscription_id = ${{ secrets.SUBS_ID }}
+           
 #     - name: Setup Terraform
 #       uses: hashicorp/setup-terraform@v1
 #       with: |
