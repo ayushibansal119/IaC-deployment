@@ -54,6 +54,14 @@ jobs:
           inlineScript: |
            az login --service-principal -u ${{ secrets.SP_ID }} -p ${{ secrets.SP_PASSWORD }} --tenant ${{ secrets.Tenant_ID }}
            az account set -s ${{ secrets.SUBS_ID }}
+           
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with: |
+        client_id = ${{ secrets.SP_ID }}
+        client_secret = ${{ secrets.SP_PASSWORD }}
+        tenant_id = ${{ secrets.TENANT_ID }}
+        subscription_id = ${{ secrets.SUBS_ID }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -62,14 +70,22 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
+      
+    - name: Setup Terraform variables
+      working-directory: ./environments/dev/
+      id: vars
+      run: |-
+        cat > pipeline.auto.tfvars <<EOF
+        image_tag = "${{ github.sha }}"
+        EOF
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      env: |
-        TF_VAR_client_id = ${{ secrets.SP_ID }}
-        TF_VAR_client_secret = ${{ secrets.SP_PASSWORD }}
-        TF_VAR_tenant_id = ${{ secrets.Tenant_ID }}
-        TF_VAR_subscription_id = ${{ secrets.SUBS_ID }}
+#       env: |
+#         TF_VAR_client_id = ${{ secrets.SP_ID }}
+#         TF_VAR_client_secret = ${{ secrets.SP_PASSWORD }}
+#         TF_VAR_tenant_id = ${{ secrets.TENANT_ID }}
+#         TF_VAR_subscription_id = ${{ secrets.SUBS_ID }}
       run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
@@ -79,6 +95,6 @@ jobs:
       env: |
         TF_VAR_client_id = ${{ secrets.SP_ID }}
         TF_VAR_client_secret = ${{ secrets.SP_PASSWORD }}
-        TF_VAR_tenant_id = ${{ secrets.Tenant_ID }}
+        TF_VAR_tenant_id = ${{ secrets.TENANT_ID }}
         TF_VAR_subscription_id = ${{ secrets.SUBS_ID }}
       run: terraform apply -auto-approve -input=false
