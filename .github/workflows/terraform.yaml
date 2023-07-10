@@ -17,10 +17,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: shell
+    - name: environment_directory
       run: |
-        shell: bash
-        pwd
+        cd environments/dev
     - name: Azure CLI script
       uses: azure/CLI@v1
       with:
