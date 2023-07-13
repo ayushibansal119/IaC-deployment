@@ -1,10 +1,10 @@
-rg_name           = "rg-ab-prod-CI-001"
+rg_name           = "rg-ab-prod-ci-001"
 location          = "CentralIndia"
-vnet_name         = "vnet-ab-prod-CI-001"
+vnet_name         = "vnet-ab-prod-ci-001"
 vnet_add_space    = ["10.1.0.0/16"]
 subnet_name       = "cluster-subnet"
 subnet_add_prefix = ["10.1.21.0/21"]
-cluster_name      = "aks-ab-prod-eus-001"
+cluster_name      = "aks-ab-prod-ci-001"
 aks_sku           = "Free"
 auto_upgrade      = "patch"
 default_pool_name = "systempool"

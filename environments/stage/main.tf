@@ -5,24 +5,30 @@ terraform {
       version = "3.62.1"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-ab-shared-ci-001"
+    storage_account_name = "saabsharedci001t"
+    container_name       = "tfstate"
+    key                  = "dev.tfstate"
+  }
 }
 
 provider "azurerm" {
   features {}
-  client_id = var.client_id
-  client_secret = var.client_secret
-  tenant_id = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
   subscription_id = var.subscription_id
 }
 
 module "rg" {
-  source   = "./modules/rg"
+  source   = "../../modules/rg"
   rg_name  = var.rg_name
   location = var.location
 }
 
 module "network" {
-  source            = "./modules/network"
+  source            = "../../modules/network"
   vnet_name         = var.vnet_name
   rg_name           = module.rg.rg_name
   location          = module.rg.location
@@ -35,7 +41,7 @@ module "network" {
 }
 
 module "aks" {
-  source               = "./modules/aks"
+  source               = "../../modules/aks"
   rg_name              = module.rg.rg_name
   location             = module.rg.location
   cluster_name         = var.cluster_name
